@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    
+    <!-- Meta Tags e SEO -->
+    <title>Dr.Drone — Assistência Técnica e Serviços de Drones</title>
+    <meta name="description" content="Assistência Técnica especializada em drones. Manutenção, reparo de motores, calibração de gimbal e diagnóstico preciso. Solicite um orçamento!">
+    <meta property="og:title" content="Dr.Drone — Assistência Técnica e Serviços">
+    <meta property="og:description" content="Devolvemos seu drone com performance de fábrica. Técnicos certificados, garantia de 90 dias e atendimento para todo o Brasil.">
+    <meta property="og:type" content="website">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Habilita o dark mode via classe no HTML
+            theme: {
+                extend: {
+                    colors: {
+                        cane: {
+                            50: '#edfcf2', 100: '#d4f7e0', 200: '#aceec6',
+                            300: '#76dfa5', 400: '#3ac97e', 500: '#17ad63',
+                            600: '#0b8c4f', 700: '#097041', 800: '#0a5935', 900: '#09492d',
+                        },
+                        dark: {
+                            50: '#171717', 100: '#111111', 200: '#0d0d0d',
+                            300: '#0a0a0a', 400: '#080808', 500: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        html.dark ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #17ad63; border-radius: 3px; }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(23,173,99,0.2); }
+            50% { box-shadow: 0 0 40px rgba(23,173,99,0.4); }
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+        .animate-scroll { animation: scroll 40s linear infinite; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.active { opacity: 1; transform: translateX(0); }
+
+        .card-3d {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
+            transform-style: preserve-3d;
+        }
+        .card-3d:hover {
+            transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
+            box-shadow: 0 30px 60px -15px rgba(23,173,99,0.15);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #17ad63, transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .service-card:hover::before { opacity: 1; }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #17ad63, #0b8c4f, #097041);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        html.dark .text-gradient {
+            background: linear-gradient(135deg, #3ac97e, #17ad63, #0b8c4f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-15deg);
+            transition: left 0.6s;
+        }
+        html.dark .btn-shine::after {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+        }
+        .btn-shine:hover::after { left: 120%; }
+
+        .toast {
+            transform: translateX(120%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .toast.show { transform: translateX(0); }
+
+        .mobile-menu {
+            clip-path: circle(0% at calc(100% - 40px) 40px);
+            transition: clip-path 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mobile-menu.open {
+            clip-path: circle(150% at calc(100% - 40px) 40px);
+        }
+
+        .marquee-mask {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s;
+        }
+        .faq-answer.open { max-height: 300px; }
+
+        .service-chip {
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .service-chip.selected {
+            background: #17ad63 !important;
+            border-color: #17ad63 !important;
+            color: white !important;
+        }
+
+        .step-line { transition: background 0.5s; }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #17ad63 !important;
+            box-shadow: 0 0 0 3px rgba(23,173,99,0.15);
+        }
+
+        .stat-number { font-variant-numeric: tabular-nums; }
+
+        .brand-name {
+            letter-spacing: -0.03em;
+        }
+        .brand-name .dot {
+            color: #17ad63;
+            font-weight: 900;
+        }
+
+    </style>
+</head>
+<body class="font-inter bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white transition-colors duration-300">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast fixed top-6 right-6 z-[100] bg-cane-600 text-white px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3 max-w-sm">
+        <i data-lucide="check-circle" class="w-5 h-5 flex-shrink-0"></i>
+        <span id="toast-message" class="text-sm font-medium">Redirecionando...</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#hero" class="flex items-center group py-2">
+                <img src="logofp.png" alt="Dr.Drone Logo" class="h-16 md:h-20 lg:h-[85px] w-auto object-contain rounded-xl group-hover:scale-105 transition-transform duration-300 shadow-sm">
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#servicos" class="text-sm text-neutral-300 hover:text-white transition-colors duration-300 font-medium">Serviços</a>
+                <a href="#sobre" class="text-sm text-neutral-300 hover:text-white transition-colors duration-300 font-medium">Sobre</a>
+                <a href="#depoimentos" class="text-sm text-neutral-300 hover:text-white transition-colors duration-300 font-medium">Depoimentos</a>
+                <a href="#faq" class="text-sm text-neutral-300 hover:text-white transition-colors duration-300 font-medium">FAQ</a>
+                
+                <!-- Toggle Theme Button Desktop 
+                <button class="theme-toggle flex items-center justify-center w-10 h-10 rounded-full text-neutral-400 hover:text-white hover:bg-white/10 transition-colors" aria-label="Alternar tema">
+                    <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+                    <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                </button>-->
+
+                <a href="#orcamento" class="btn-shine bg-cane-500 hover:bg-cane-600 text-white font-semibold text-sm h-11 px-7 rounded-full flex items-center gap-2 transition-colors shadow-md shadow-cane-500/20">
+                    <i data-lucide="calculator" class="w-4 h-4"></i>
+                    Orçamento
+                </a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <div class="flex items-center gap-3 md:hidden">
+                <!-- Toggle Theme Button Mobile -->
+                <button class="theme-toggle w-10 h-10 flex items-center justify-center text-white bg-white/10 hover:bg-white/20 rounded-full" aria-label="Alternar tema">
+                    <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+                    <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                </button>
+                <button id="menu-toggle" class="w-10 h-10 flex items-center justify-center text-white bg-white/10 hover:bg-white/20 rounded-full transition-colors" onclick="toggleMenu()">
+                    <i data-lucide="menu" class="w-5 h-5" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed inset-0 z-40 bg-white/98 dark:bg-[#050505]/98 backdrop-blur-xl flex flex-col items-center justify-center gap-8">
+        <a href="#servicos" onclick="toggleMenu()" class="text-2xl font-semibold text-slate-900 dark:text-white hover:text-cane-500 dark:hover:text-cane-400 transition-colors">Serviços</a>
+        <a href="#sobre" onclick="toggleMenu()" class="text-2xl font-semibold text-slate-900 dark:text-white hover:text-cane-500 dark:hover:text-cane-400 transition-colors">Sobre</a>
+        <a href="#depoimentos" onclick="toggleMenu()" class="text-2xl font-semibold text-slate-900 dark:text-white hover:text-cane-500 dark:hover:text-cane-400 transition-colors">Depoimentos</a>
+        <a href="#faq" onclick="toggleMenu()" class="text-2xl font-semibold text-slate-900 dark:text-white hover:text-cane-500 dark:hover:text-cane-400 transition-colors">FAQ</a>
+        
+        <div class="flex flex-col items-center mt-6">
+            <img src="logofp.png" alt="Dr.Drone Logo" class="h-16 w-auto object-contain rounded-xl shadow-md dark:shadow-none">
+        </div>
+        
+        <a href="#orcamento" onclick="toggleMenu()" class="btn-shine bg-cane-500 text-white dark:text-dark-500 font-semibold text-lg h-14 px-10 rounded-full flex items-center gap-2 mt-4 shadow-lg shadow-cane-500/30">
+            <i data-lucide="calculator" class="w-5 h-5"></i>
+            Orçamento
+        </a>
+    </div>
+
+    <!-- Hero Section com Vídeo de Fundo -->
+    <section id="hero" class="relative min-h-screen flex items-center overflow-hidden bg-slate-950">
+        
+        <!-- 1. VÍDEO DE FUNDO (ONLINE E DIRETO) -->
+        <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none z-0">
+            <!-- Coloquei um vídeo de drone passando por montanhas, mas você pode trocar o link -->
+            <source src="teste.mp4" type="video/mp4">
+        </video>
+
+        <!-- 2. CAMADA DE ESCURECIMENTO (Gradiante escuro na esquerda para ler o texto, transparente na direita para ver o vídeo) -->
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/70 to-transparent z-0"></div>
+
+        <div class="max-w-7xl mx-auto px-6 pt-32 pb-20 w-full relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- Conteúdo da Esquerda (Textos e Botões) -->
+                <div class="space-y-8 reveal-left">
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[0.9] text-white transition-colors duration-300">
+                        <span class="brand-name"><span class="text-cane-500">Seu </span>Drone</span><br>
+                        <span class="text-gradient">no ar</span><br>
+                        novamente.
+                    </h1>
+
+                    <p class="text-neutral-300 text-lg md:text-xl font-light leading-relaxed max-w-lg transition-colors duration-300">
+                        Manutenção especializada DJI, reparo de componentes, calibração, troca de peças. Devolvemos seu drone com performance de fábrica.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#orcamento" class="btn-shine bg-cane-500 hover:bg-cane-600 text-white font-semibold h-14 px-8 rounded-full flex items-center justify-center gap-2 transition-all hover:scale-105 shadow-lg shadow-cane-500/30">
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                            Solicitar Orçamento
+                        </a>
+                        <a href="#servicos" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium h-14 px-8 rounded-full flex items-center justify-center gap-2 transition-all backdrop-blur-sm">
+                            <i data-lucide="wrench" class="w-5 h-5"></i>
+                            Ver Serviços
+                        </a>
+                    </div>
+                </div>
+
+               <!-- Right Image -->
+                <div class="relative hidden lg:block">
+                    <div class="relative h-[550px] rounded-3xl overflow-hidden group shadow-2xl shadow-slate-200/50 dark:shadow-none">
+                        <img src="manu.jpg" alt="Dr.Drone — Assistência Técnica" onerror="this.src='https://picsum.photos/seed/drone-main/800/1000.jpg'"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 dark:opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#f8fafc] dark:from-[#050505] via-[#f8fafc]/30 dark:via-[#050505]/40 to-transparent transition-colors duration-300"></div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-[#f8fafc]/50 dark:from-[#050505]/60 to-transparent transition-colors duration-300"></div>
+                        <!-- Floating card -->
+                        <div class="absolute bottom-6 left-6 right-6 bg-white/90 dark:bg-white/10 backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-2xl p-5 shadow-xl transition-colors duration-300">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-cane-50 dark:bg-cane-500/20 rounded-xl flex items-center justify-center transition-colors">
+                                    <i data-lucide="shield-check" class="w-6 h-6 text-cane-600 dark:text-cane-400"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-sm text-slate-900 dark:text-white transition-colors">Garantia em todos os serviços</p>
+                                    <p class="text-xs text-slate-500 dark:text-neutral-400 mt-0.5 transition-colors">3 meses de garantia contra defeitos de fabricação</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Marquee -->
+    <section class="py-12 border-y border-slate-200 dark:border-neutral-900 bg-white dark:bg-[#0a0a0a] transition-colors duration-300">
+        <div class="marquee-mask overflow-hidden">
+            <div class="flex animate-scroll whitespace-nowrap">
+                <div class="flex items-center gap-16 px-8">
+                    <span class="text-slate-400 dark:text-neutral-600 font-semibold text-lg tracking-wide transition-colors">NEO/NEO2</span>
+                    <span class="text-slate-200 dark:text-neutral-800">•</span>
+                    <span class="text-slate-400 dark:text-neutral-600 font-semibold text-lg tracking-wide transition-colors">MINI 2</span>
+                    <span class="text-slate-200 dark:text-neutral-800">•</span>
+                    <span class="text-slate-400 dark:text-neutral-600 font-semibold text-lg tracking-wide transition-colors">MINI 3/PRO</span>
+                    <span class="text-slate-200 dark:text-neutral-800">•</span>
+                    <span class="text-slate-400 dark:text-neutral-600 font-semibold text-lg tracking-wide transition-colors">MINI 4 PRO</span>
+                    <span class="text-slate-200 dark:text-neutral-800">•</span>
+                    <span class="text-slate-400 dark:text-neutral-600 font-semibold text-lg tracking-wide transition-colors">MINI 5 PRO</span>
+                    <span class="text-slate-200 dark:text-neutral-800">•</span>
+                    <span class="text-slate-400 dark:text-neutral-600 font-semibold text-lg tracking-wide transition-colors">FLIP</span>
+                    <span class="text-slate-200 dark:text-neutral-800">•</span>
+                    <span class="text-slate-400 dark:text-neutral-600 font-semibold text-lg tracking-wide transition-colors">MAVIC MINI</span>
+                    <span class="text-slate-200 dark:text-neutral-800">•</span>
+                    <span class="text-slate-400 dark:text-neutral-600 font-semibold text-lg tracking-wide transition-colors">AIR 2/2S/3/3S</span>
+                    <span class="text-slate-200 dark:text-neutral-800">•</span>
+                    <span class="text-slate-400 dark:text-neutral-600 font-semibold text-lg tracking-wide transition-colors">LITO 1/X1</span>
+                    <span class="text-slate-200 dark:text-neutral-800">•</span>
+                    <span class="text-slate-400 dark:text-neutral-600 font-semibold text-lg tracking-wide transition-colors">AVATA</span>
+                    <span class="text-slate-200 dark:text-neutral-800">•</span>
+                    <span class="text-slate-400 dark:text-neutral-600 font-semibold text-lg tracking-wide transition-colors">MATRICE</span>
+                    <span class="text-slate-200 dark:text-neutral-800">•</span>
+                    <span class="text-slate-400 dark:text-neutral-600 font-semibold text-lg tracking-wide transition-colors">AGRAS</span>
+                    <span class="text-slate-200 dark:text-neutral-800">•</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="servicos" class="py-24 md:py-32 relative">
+        <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-cane-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-20 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-slate-900 dark:text-white transition-colors">
+                    Soluções completas para<br><span class="text-gradient">seu drone</span>
+                </h2>
+                <p class="text-slate-500 dark:text-neutral-400 text-lg font-light leading-relaxed transition-colors">
+                    Do diagnóstico à entrega, cuidamos de cada detalhe com todo o suporte que você merece.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Diagnostico -->
+                <div class="service-card card-3d relative bg-white dark:bg-neutral-900/50 border border-slate-200 dark:border-neutral-800/50 rounded-2xl p-8 group hover:border-cane-300 dark:hover:border-cane-500/30 transition-all duration-500 reveal shadow-sm hover:shadow-xl dark:shadow-none">
+                    <div class="w-14 h-14 bg-cane-50 dark:bg-cane-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-cane-100 dark:group-hover:bg-cane-500/20 transition-colors">
+                        <i data-lucide="search" class="w-7 h-7 text-cane-600 dark:text-cane-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors">Diagnóstico Técnico</h3>
+                    <p class="text-slate-600 dark:text-neutral-400 text-sm leading-relaxed mb-6 transition-colors">Avaliação completa de hardware e software para identificar falhas com precisão.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-cane-600 dark:text-cane-400 font-bold text-lg transition-colors">Grátis*</span>
+                        <span class="text-[11px] text-slate-400 dark:text-neutral-600 transition-colors">*no reparo contratado</span>
+                    </div>
+                </div>
+
+                <!-- Motor -->
+                <div class="service-card card-3d relative bg-white dark:bg-neutral-900/50 border border-slate-200 dark:border-neutral-800/50 rounded-2xl p-8 group hover:border-cane-300 dark:hover:border-cane-500/30 transition-all duration-500 reveal shadow-sm hover:shadow-xl dark:shadow-none" style="transition-delay:0.1s">
+                    <div class="w-14 h-14 bg-cane-50 dark:bg-cane-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-cane-100 dark:group-hover:bg-cane-500/20 transition-colors">
+                        <i data-lucide="rotate-ccw" class="w-7 h-7 text-cane-600 dark:text-cane-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors">Reparo de Motores</h3>
+                    <p class="text-slate-600 dark:text-neutral-400 text-sm leading-relaxed mb-6 transition-colors">Substituição e reparo de motores ESC, análise de vibração e balanceamento dinâmico das hélices.</p>
+                </div>
+
+                <!-- Gimbal -->
+                <div class="service-card card-3d relative bg-white dark:bg-neutral-900/50 border border-slate-200 dark:border-neutral-800/50 rounded-2xl p-8 group hover:border-cane-300 dark:hover:border-cane-500/30 transition-all duration-500 reveal shadow-sm hover:shadow-xl dark:shadow-none" style="transition-delay:0.2s">
+                    <div class="w-14 h-14 bg-cane-50 dark:bg-cane-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-cane-100 dark:group-hover:bg-cane-500/20 transition-colors">
+                        <i data-lucide="camera" class="w-7 h-7 text-cane-600 dark:text-cane-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors">Câmera & Gimbal</h3>
+                    <p class="text-slate-600 dark:text-neutral-400 text-sm leading-relaxed mb-6 transition-colors">Calibração de gimbal, limpeza de lentes, reparo de estabilização e substituição de cabos flex.</p>
+                </div>
+
+                <!-- Bateria -->
+                <div class="service-card card-3d relative bg-white dark:bg-neutral-900/50 border border-slate-200 dark:border-neutral-800/50 rounded-2xl p-8 group hover:border-cane-300 dark:hover:border-cane-500/30 transition-all duration-500 reveal shadow-sm hover:shadow-xl dark:shadow-none" style="transition-delay:0.1s">
+                    <div class="w-14 h-14 bg-cane-50 dark:bg-cane-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-cane-100 dark:group-hover:bg-cane-500/20 transition-colors">
+                        <i data-lucide="droplets" class="w-7 h-7 text-cane-600 dark:text-cane-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors">Desoxidação</h3>
+                    <p class="text-slate-600 dark:text-neutral-400 text-sm leading-relaxed mb-6 transition-colors">Recuperação de drones após sinistos no mar, rio ou chuva.</p>
+                </div>
+
+                <!-- RC -->
+                <div class="service-card card-3d relative bg-white dark:bg-neutral-900/50 border border-slate-200 dark:border-neutral-800/50 rounded-2xl p-8 group hover:border-cane-300 dark:hover:border-cane-500/30 transition-all duration-500 reveal shadow-sm hover:shadow-xl dark:shadow-none" style="transition-delay:0.2s">
+                    <div class="w-14 h-14 bg-cane-50 dark:bg-cane-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-cane-100 dark:group-hover:bg-cane-500/20 transition-colors">
+                        <i data-lucide="radio" class="w-7 h-7 text-cane-600 dark:text-cane-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors">RC & GPS</h3>
+                    <p class="text-slate-600 dark:text-neutral-400 text-sm leading-relaxed mb-6 transition-colors">Conserto de controle remoto, reparo de módulos GPS, perda de sinal, compasso e sistemas de transmissão de vídeo.</p>
+                </div>
+
+                <!-- Preventiva -->
+                <div class="service-card card-3d relative bg-white dark:bg-neutral-900/50 border border-slate-200 dark:border-neutral-800/50 rounded-2xl p-8 group hover:border-cane-300 dark:hover:border-cane-500/30 transition-all duration-500 reveal shadow-sm hover:shadow-xl dark:shadow-none" style="transition-delay:0.3s">
+                    <div class="w-14 h-14 bg-cane-50 dark:bg-cane-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-cane-100 dark:group-hover:bg-cane-500/20 transition-colors">
+                        <i data-lucide="sparkles" class="w-7 h-7 text-cane-600 dark:text-cane-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors">Manutenção Preventiva</h3>
+                    <p class="text-slate-600 dark:text-neutral-400 text-sm leading-relaxed mb-6 transition-colors">Revisão completa: limpeza, lubrificação, atualização de firmware, calibração geral e testes de voo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats / About Section com Vídeo de Fundo em Borda Infinita -->
+    <section id="sobre" class="py-28 relative overflow-hidden bg-slate-950 text-white">
+        
+        <!-- 1. VÍDEO DE FUNDO (ONLINE E DIRETO) -->
+        <!-- Usando link direto do Pexels, não precisa baixar o vídeo -->
+        <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none z-0">
+            <source src="teste.mp4" type="video/mp4">
+        </video>
+
+        <!-- 2. CAMADA DE ESCURECIMENTO (Garante a leitura dos textos sobre o vídeo) -->
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/50 z-0"></div>
+
+        <!-- 3. CONTEÚDO DA SEÇÃO -->
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                
+                <!-- Coluna da Esquerda: Card com efeito de vidro e Logo -->
+                <div class="reveal-left relative">
+                    <div class="relative rounded-3xl overflow-hidden h-[450px] group border border-white/10 bg-black/30 backdrop-blur-sm shadow-2xl flex items-center justify-center">
+                        <!-- Camada de overlay escuro no card para destacar a logo -->
+                        <div class="absolute inset-0 bg-black/40"></div>
+                        
+                        <!-- Logo no centro do card flutuante -->
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <img src="image_01e760.png" alt="Dr.Drone Logo" class="h-20 md:h-24 w-auto object-contain drop-shadow-2xl">
+                        </div>
+                    </div>
+                    
+                    <!-- Contador de Drones Reparados -->
+                    <div class="absolute -bottom-6 -right-6 md:right-8 bg-cane-500 rounded-2xl p-6 shadow-2xl shadow-cane-500/40 animate-pulse-glow">
+                        <p class="text-3xl font-extrabold text-white stat-number" data-target="500">0</p>
+                        <p class="text-cane-100 text-xs font-semibold uppercase tracking-wider mt-1">Drones Reparados</p>
+                    </div>
+                </div>
+
+                <!-- Coluna da Direita: Textos e Estatísticas -->
+                <div class="reveal-right space-y-8">
+                    <div class="hero-tagline inline-flex bg-cane-500/10 backdrop-blur-md border border-cane-500/30 p-2 rounded-full px-4 gap-2">
+                        <i data-lucide="info" class="w-4 h-4 text-cane-400 font-bold mt-0.5"></i>
+                        <span class="text-cane-400 text-sm font-semibold">Sobre a Dr.Drone</span>
+                    </div>
+
+                    <h2 class="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-white">
+                        Tecnologia de ponta,<br><span class="text-gradient">confiança real</span>
+                    </h2>
+
+                    <p class="text-neutral-300 text-lg font-light leading-relaxed">
+                        A <span class="brand-name font-semibold text-white"><span class="dot">Dr</span>.Drone</span> nasceu da paixão por drones e pela frustração de não encontrar serviços técnicos confiáveis no Brasil. Somos técnicos certificados com anos de experiência em reparo de drones comerciais e consumer.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <p class="text-3xl font-bold text-cane-400 stat-number" data-target="8">0</p>
+                            <p class="text-sm font-medium text-neutral-400">Anos de experiência</p>
+                        </div>
+                        <div class="space-y-2">
+                            <p class="text-3xl font-bold text-cane-400 stat-number" data-target="98">0</p>
+                            <p class="text-sm font-medium text-neutral-400">% de satisfação</p>
+                        </div>
+                        <div class="space-y-2">
+                            <p class="text-3xl font-bold text-cane-400 stat-number" data-target="72">0</p>
+                            <p class="text-sm font-medium text-neutral-400">Horas turnaround médio</p>
+                        </div>
+                        <div class="space-y-2">
+                            <p class="text-3xl font-bold text-cane-400 stat-number" data-target="90">0</p>
+                            <p class="text-sm font-medium text-neutral-400">Dias de garantia</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-cane-400"></i>
+                            <span class="text-sm font-medium text-neutral-200">Peças originais</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-cane-400"></i>
+                            <span class="text-sm font-medium text-neutral-200">Técnicos certificados</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-cane-400"></i>
+                            <span class="text-sm font-medium text-neutral-200">Atende todo o Brasil</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="py-24 md:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-20 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-slate-900 dark:text-white transition-colors">
+                    Processo <span class="text-gradient">simples</span>
+                </h2>
+                <p class="text-slate-500 dark:text-neutral-400 text-lg font-light transition-colors">Do pedido à entrega, em apenas 4 passos.</p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8 relative">
+                <div class="hidden md:block absolute top-16 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-cane-500/0 via-cane-500/30 to-cane-500/0"></div>
+
+                <div class="text-center reveal" style="transition-delay:0s">
+                    <div class="w-14 h-14 bg-cane-500 rounded-2xl flex items-center justify-center mx-auto mb-6 relative z-10 text-white dark:text-dark-500 font-bold text-xl shadow-lg shadow-cane-500/30 dark:shadow-none transition-colors">1</div>
+                    <h3 class="font-bold text-slate-900 dark:text-white text-lg mb-2 transition-colors">Solicite um orçamento</h3>
+                    <p class="text-sm text-slate-500 dark:text-neutral-400 leading-relaxed transition-colors">Preencha o formulário de orçamento e seja encaminhado para um atendimento personalizado via WhatsApp</p>
+                </div>
+                <div class="text-center reveal" style="transition-delay:0.15s">
+                    <div class="w-14 h-14 bg-white dark:bg-cane-500/20 border-2 border-cane-100 dark:border-cane-500/30 rounded-2xl flex items-center justify-center mx-auto mb-6 relative z-10 text-cane-500 dark:text-cane-400 font-bold text-xl shadow-sm dark:shadow-none transition-colors">2</div>
+                    <h3 class="font-bold text-slate-900 dark:text-white text-lg mb-2 transition-colors">Diagnóstico</h3>
+                    <p class="text-sm text-slate-500 dark:text-neutral-400 leading-relaxed transition-colors">Avaliamos seu drone e enviamos o orçamento detalhado.</p>
+                </div>
+                <div class="text-center reveal" style="transition-delay:0.3s">
+                    <div class="w-14 h-14 bg-white dark:bg-cane-500/20 border-2 border-cane-100 dark:border-cane-500/30 rounded-2xl flex items-center justify-center mx-auto mb-6 relative z-10 text-cane-500 dark:text-cane-400 font-bold text-xl shadow-sm dark:shadow-none transition-colors">3</div>
+                    <h3 class="font-bold text-slate-900 dark:text-white text-lg mb-2 transition-colors">Reparo</h3>
+                    <p class="text-sm text-slate-500 dark:text-neutral-400 leading-relaxed transition-colors">Após aprovação, realizamos o reparo com peças de qualidade em até 7 dias úteis</p>
+                </div>
+                <div class="text-center reveal" style="transition-delay:0.45s">
+                    <div class="w-14 h-14 bg-white dark:bg-cane-500/20 border-2 border-cane-100 dark:border-cane-500/30 rounded-2xl flex items-center justify-center mx-auto mb-6 relative z-10 text-cane-500 dark:text-cane-400 font-bold text-xl shadow-sm dark:shadow-none transition-colors">4</div>
+                    <h3 class="font-bold text-slate-900 dark:text-white text-lg mb-2 transition-colors">Entrega</h3>
+                    <p class="text-sm text-slate-500 dark:text-neutral-400 leading-relaxed transition-colors">Teste de voo completo e entrega com garantia de 90 dias</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials com Vídeo de Fundo -->
+    <section id="depoimentos" class="py-24 md:py-32 relative overflow-hidden bg-black">
+        
+        <!-- VÍDEO DE FUNDO -->
+        <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none z-0">
+            <!-- Link direto do Mixkit de um drone em campo aberto -->
+            <source src="teste.mp4" type="video/mp4">
+        </video>
+
+        <!-- CAMADA DE ESCURECIMENTO -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/90 via-black/60 to-black/90 z-0"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-20 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-white transition-colors">
+                    O que nossos clientes <span class="text-gradient">dizem</span>
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="card-3d bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-8 reveal shadow-2xl transition-colors duration-300" style="transition-delay:0s">
+                    <div class="flex items-center gap-1 text-yellow-400 mb-4 transition-colors">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6 italic transition-colors">"Muito bom! Tive um sinistro com meu Drone, caiu na água. Na mesma hora entrei em contato e prontamente me atenderam. Salvaram meu drone! Esta funcionando perfeitamente!!!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-cane-600 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md">DC</div>
+                        <div>
+                            <p class="text-sm font-bold text-white transition-colors">Diego Capeloni</p>
+                            <p class="text-xs font-medium text-gray-400 transition-colors">Petrolina — PE</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card-3d bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-8 reveal shadow-2xl transition-colors duration-300" style="transition-delay:0.15s">
+                    <div class="flex items-center gap-1 text-yellow-400 mb-4 transition-colors">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6 italic transition-colors">"Quando levei o controle do meu drone nem ligava. Achei que só ia resolver comprando outro. Além de resolverem ainda fizeram um preço muito bom."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-cane-500 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md">AM</div>
+                        <div>
+                            <p class="text-sm font-bold text-white transition-colors">Ana Martins</p>
+                            <p class="text-xs font-medium text-gray-400 transition-colors">Juazeiro — BA</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card-3d bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-8 reveal shadow-2xl transition-colors duration-300" style="transition-delay:0.3s">
+                    <div class="flex items-center gap-1 text-yellow-400 mb-4 transition-colors">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed mb-6 italic transition-colors">"O gimbal do meu Mini 4 Pro estava vibrando sem parar. Encontraram o defeito rápido e já fizeram o reparo. Recomendo de olhos fechados!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-cane-700 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md">JL</div>
+                        <div>
+                            <p class="text-sm font-bold text-white transition-colors">João Lima</p>
+                            <p class="text-xs font-medium text-gray-400 transition-colors">Irecê — BA</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-24 md:py-32">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white transition-colors">
+                    Perguntas <span class="text-gradient">frequentes</span>
+                </h2>
+            </div>
+
+            <div class="space-y-3 reveal">
+                <div class="faq-item border border-slate-200 dark:border-neutral-800/50 bg-white dark:bg-neutral-900/50 rounded-2xl overflow-hidden hover:border-cane-300 dark:hover:border-cane-500/20 transition-colors shadow-sm dark:shadow-none">
+                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left" onclick="toggleFaq(this)">
+                        <span class="font-bold text-slate-900 dark:text-white text-sm md:text-base pr-4 transition-colors">Quanto tempo leva um reparo?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-cane-500 dark:text-cane-400 flex-shrink-0 faq-icon transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer px-6 bg-slate-50/50 dark:bg-transparent transition-colors">
+                        <p class="text-slate-600 dark:text-neutral-400 text-sm leading-relaxed pb-6 pt-2 transition-colors">A maioria dos reparos é realizada em até 7 dias úteis, dependendo da complexidade e disponibilidade de peças. Sempre informamos o prazo antes de iniciar.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item border border-slate-200 dark:border-neutral-800/50 bg-white dark:bg-neutral-900/50 rounded-2xl overflow-hidden hover:border-cane-300 dark:hover:border-cane-500/20 transition-colors shadow-sm dark:shadow-none">
+                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left" onclick="toggleFaq(this)">
+                        <span class="font-bold text-slate-900 dark:text-white text-sm md:text-base pr-4 transition-colors">Vocês atendem qual modelo de drone?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-cane-500 dark:text-cane-400 flex-shrink-0 faq-icon transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer px-6 bg-slate-50/50 dark:bg-transparent transition-colors">
+                        <p class="text-slate-600 dark:text-neutral-400 text-sm leading-relaxed pb-6 pt-2 transition-colors">Atendemos todas as marcas: DJI (Mavic, Phantom, Mini, Air, Inspire, Matrice). Se tiver dúvida, entre em contato!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item border border-slate-200 dark:border-neutral-800/50 bg-white dark:bg-neutral-900/50 rounded-2xl overflow-hidden hover:border-cane-300 dark:hover:border-cane-500/20 transition-colors shadow-sm dark:shadow-none">
+                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left" onclick="toggleFaq(this)">
+                        <span class="font-bold text-slate-900 dark:text-white text-sm md:text-base pr-4 transition-colors">Como funciona a garantia?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-cane-500 dark:text-cane-400 flex-shrink-0 faq-icon transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer px-6 bg-slate-50/50 dark:bg-transparent transition-colors">
+                        <p class="text-slate-600 dark:text-neutral-400 text-sm leading-relaxed pb-6 pt-2 transition-colors">Oferecemos 90 dias de garantia em todos os reparos realizados. A garantia cobre o serviço executado e as peças instaladas. Não cobre novos danos por uso indevido ou quedas.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item border border-slate-200 dark:border-neutral-800/50 bg-white dark:bg-neutral-900/50 rounded-2xl overflow-hidden hover:border-cane-300 dark:hover:border-cane-500/20 transition-colors shadow-sm dark:shadow-none">
+                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left" onclick="toggleFaq(this)">
+                        <span class="font-bold text-slate-900 dark:text-white text-sm md:text-base pr-4 transition-colors">O diagnóstico é realmente gratuito?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-cane-500 dark:text-cane-400 flex-shrink-0 faq-icon transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer px-6 bg-slate-50/50 dark:bg-transparent transition-colors">
+                        <p class="text-slate-600 dark:text-neutral-400 text-sm leading-relaxed pb-6 pt-2 transition-colors">Sim! O diagnóstico é gratuito caso você aprove o reparo. Se decidir não realizar o serviço, cobramos apenas uma taxa pela avaliação técnica.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item border border-slate-200 dark:border-neutral-800/50 bg-white dark:bg-neutral-900/50 rounded-2xl overflow-hidden hover:border-cane-300 dark:hover:border-cane-500/20 transition-colors shadow-sm dark:shadow-none">
+                    <button class="faq-toggle w-full flex items-center justify-between p-6 text-left" onclick="toggleFaq(this)">
+                        <span class="font-bold text-slate-900 dark:text-white text-sm md:text-base pr-4 transition-colors">Vocês recebem drones por correio?</span>
+                        <i data-lucide="plus" class="w-5 h-5 text-cane-500 dark:text-cane-400 flex-shrink-0 faq-icon transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer px-6 bg-slate-50/50 dark:bg-transparent transition-colors">
+                        <p class="text-slate-600 dark:text-neutral-400 text-sm leading-relaxed pb-6 pt-2 transition-colors">Sim! Atendemos todo o Brasil via correios ou transportadora.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Budget Form Section -->
+    <section id="orcamento" class="py-24 md:py-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-[#f8fafc] dark:from-[#050505] via-cane-50/60 dark:via-cane-900/10 to-[#f8fafc] dark:to-[#050505] transition-colors duration-300"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cane-200/30 dark:bg-cane-500/5 rounded-full blur-[120px] pointer-events-none transition-colors"></div>
+
+        <div class="max-w-4xl mx-auto px-6 relative">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-slate-900 dark:text-white transition-colors">
+                    Solicite seu <span class="text-gradient">orçamento</span>
+                </h2>
+                <p class="text-slate-500 dark:text-neutral-400 text-lg font-light max-w-xl mx-auto transition-colors">Preencha o formulário abaixo e responderemos em até 2 horas no horário comercial.</p>
+            </div>
+
+            <div class="bg-white dark:bg-neutral-900/50 border border-slate-200 dark:border-neutral-800/50 rounded-3xl p-8 md:p-12 reveal shadow-xl shadow-slate-200/50 dark:shadow-none transition-colors duration-300">
+                <form id="budget-form" onsubmit="handleSubmit(event)">
+                    <!-- Step indicators -->
+                    <div class="flex items-center justify-center gap-4 mb-12">
+                        <div class="flex items-center gap-2">
+                            <div id="step1-dot" class="w-8 h-8 rounded-full bg-cane-500 flex items-center justify-center text-white dark:text-dark-500 text-xs font-bold transition-all shadow-md shadow-cane-500/30 dark:shadow-none">1</div>
+                            <span class="text-sm font-bold text-cane-600 dark:text-cane-400 hidden sm:inline transition-colors">Dados</span>
+                        </div>
+                        <div id="step1-line" class="w-12 h-1 bg-slate-100 dark:bg-neutral-800 step-line rounded-full transition-colors"></div>
+                        <div class="flex items-center gap-2">
+                            <div id="step2-dot" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-neutral-800 border border-slate-200 dark:border-transparent flex items-center justify-center text-slate-400 dark:text-neutral-500 text-xs font-bold transition-all">2</div>
+                            <span class="text-sm font-medium text-slate-400 dark:text-neutral-500 hidden sm:inline transition-colors" id="step2-label">Drone</span>
+                        </div>
+                        <div id="step2-line" class="w-12 h-1 bg-slate-100 dark:bg-neutral-800 step-line rounded-full transition-colors"></div>
+                        <div class="flex items-center gap-2">
+                            <div id="step3-dot" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-neutral-800 border border-slate-200 dark:border-transparent flex items-center justify-center text-slate-400 dark:text-neutral-500 text-xs font-bold transition-all">3</div>
+                            <span class="text-sm font-medium text-slate-400 dark:text-neutral-500 hidden sm:inline transition-colors" id="step3-label">Serviço</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 1 -->
+                    <div id="form-step-1" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="text-sm font-bold text-slate-700 dark:text-neutral-300 mb-2 block transition-colors">Nome completo *</label>
+                                <input type="text" id="name" required placeholder="Seu nome"
+                                       class="w-full bg-slate-50 dark:bg-neutral-800/50 border border-slate-200 dark:border-neutral-700/50 rounded-xl h-12 px-4 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-600 transition-all focus:bg-white dark:focus:bg-neutral-800">
+                            </div>
+                            <div>
+                                <label class="text-sm font-bold text-slate-700 dark:text-neutral-300 mb-2 block transition-colors">WhatsApp *</label>
+                                <input type="tel" id="phone" required placeholder="(11) 99999-9999"
+                                       class="w-full bg-slate-50 dark:bg-neutral-800/50 border border-slate-200 dark:border-neutral-700/50 rounded-xl h-12 px-4 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-600 transition-all focus:bg-white dark:focus:bg-neutral-800">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-sm font-bold text-slate-700 dark:text-neutral-300 mb-2 block transition-colors">E-mail</label>
+                            <input type="email" id="email" placeholder="seu@email.com"
+                                   class="w-full bg-slate-50 dark:bg-neutral-800/50 border border-slate-200 dark:border-neutral-700/50 rounded-xl h-12 px-4 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-600 transition-all focus:bg-white dark:focus:bg-neutral-800">
+                        </div>
+                        <div>
+                            <label class="text-sm font-bold text-slate-700 dark:text-neutral-300 mb-2 block transition-colors">Cidade / Estado *</label>
+                            <input type="text" id="city" required placeholder="São Paulo, SP"
+                                   class="w-full bg-slate-50 dark:bg-neutral-800/50 border border-slate-200 dark:border-neutral-700/50 rounded-xl h-12 px-4 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-600 transition-all focus:bg-white dark:focus:bg-neutral-800">
+                        </div>
+                        <div class="flex justify-end pt-4">
+                            <button type="button" onclick="nextStep(2)" class="btn-shine bg-cane-500 hover:bg-cane-600 text-white dark:text-dark-500 font-semibold h-12 px-8 rounded-full flex items-center gap-2 transition-all shadow-md shadow-cane-500/20 dark:shadow-none">
+                                Próximo
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div id="form-step-2" class="space-y-6 hidden">
+                        <div>
+                            <label class="text-sm font-bold text-slate-700 dark:text-neutral-300 mb-2 block transition-colors">Modelo do Drone *</label>
+                            <input type="text" id="model" required placeholder="Ex: DJI Mavic 3 Pro, Mini 4, Autel Evo..."
+                                   class="w-full bg-slate-50 dark:bg-neutral-800/50 border border-slate-200 dark:border-neutral-700/50 rounded-xl h-12 px-4 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-600 transition-all focus:bg-white dark:focus:bg-neutral-800">
+                        </div>
+                    
+                        <div>
+                            <label class="text-sm font-bold text-slate-700 dark:text-neutral-300 mb-2 block transition-colors">Descreva o problema *</label>
+                            <textarea id="problem" required rows="4" placeholder="O que aconteceu com o drone? Queda, não liga, erro de gimbal, perda de sinal..."
+                                      class="w-full bg-slate-50 dark:bg-neutral-800/50 border border-slate-200 dark:border-neutral-700/50 rounded-xl p-4 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-600 transition-all resize-none focus:bg-white dark:focus:bg-neutral-800"></textarea>
+                        </div>
+                    
+                        <div class="flex justify-between pt-4">
+                            <button type="button" onclick="nextStep(1)" class="bg-slate-100 dark:bg-transparent dark:border dark:border-neutral-700 hover:bg-slate-200 dark:hover:border-neutral-500 text-slate-700 dark:text-white font-semibold h-12 px-6 rounded-full flex items-center gap-2 transition-all">
+                                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                                Voltar
+                            </button>
+                            <button type="button" onclick="nextStep(3)" class="btn-shine bg-cane-500 hover:bg-cane-600 text-white dark:text-dark-500 font-semibold h-12 px-8 rounded-full flex items-center gap-2 transition-all shadow-md shadow-cane-500/20 dark:shadow-none">
+                                Próximo
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div id="form-step-3" class="space-y-6 hidden">
+                        <div>
+                            <label class="text-sm font-bold text-slate-700 dark:text-neutral-300 mb-4 block transition-colors">Selecione os serviços desejados *</label>
+                            <div class="flex flex-wrap gap-3" id="service-chips">
+                                <button type="button" class="service-chip bg-white dark:bg-transparent border border-slate-300 dark:border-neutral-700 text-slate-600 dark:text-neutral-300 font-medium text-sm px-5 py-2.5 rounded-full hover:border-cane-400 dark:hover:border-cane-500/50 transition-all" data-service="Diagnóstico" onclick="toggleService(this)">Diagnóstico</button>
+                                <button type="button" class="service-chip bg-white dark:bg-transparent border border-slate-300 dark:border-neutral-700 text-slate-600 dark:text-neutral-300 font-medium text-sm px-5 py-2.5 rounded-full hover:border-cane-400 dark:hover:border-cane-500/50 transition-all" data-service="Reparo de Motor" onclick="toggleService(this)">Reparo de Motor</button>
+                                <button type="button" class="service-chip bg-white dark:bg-transparent border border-slate-300 dark:border-neutral-700 text-slate-600 dark:text-neutral-300 font-medium text-sm px-5 py-2.5 rounded-full hover:border-cane-400 dark:hover:border-cane-500/50 transition-all" data-service="Câmera/Gimbal" onclick="toggleService(this)">Câmera/Gimbal</button>
+                                <button type="button" class="service-chip bg-white dark:bg-transparent border border-slate-300 dark:border-neutral-700 text-slate-600 dark:text-neutral-300 font-medium text-sm px-5 py-2.5 rounded-full hover:border-cane-400 dark:hover:border-cane-500/50 transition-all" data-service="Bateria" onclick="toggleService(this)">Bateria</button>
+                                <button type="button" class="service-chip bg-white dark:bg-transparent border border-slate-300 dark:border-neutral-700 text-slate-600 dark:text-neutral-300 font-medium text-sm px-5 py-2.5 rounded-full hover:border-cane-400 dark:hover:border-cane-500/50 transition-all" data-service="RC/GPS" onclick="toggleService(this)">RC/GPS</button>
+                                <button type="button" class="service-chip bg-white dark:bg-transparent border border-slate-300 dark:border-neutral-700 text-slate-600 dark:text-neutral-300 font-medium text-sm px-5 py-2.5 rounded-full hover:border-cane-400 dark:hover:border-cane-500/50 transition-all" data-service="Manutenção Preventiva" onclick="toggleService(this)">Manutenção Preventiva</button>
+                                <button type="button" class="service-chip bg-white dark:bg-transparent border border-slate-300 dark:border-neutral-700 text-slate-600 dark:text-neutral-300 font-medium text-sm px-5 py-2.5 rounded-full hover:border-cane-400 dark:hover:border-cane-500/50 transition-all" data-service="Recuperação de Água" onclick="toggleService(this)">Recuperação de Água</button>
+                                <button type="button" class="service-chip bg-white dark:bg-transparent border border-slate-300 dark:border-neutral-700 text-slate-600 dark:text-neutral-300 font-medium text-sm px-5 py-2.5 rounded-full hover:border-cane-400 dark:hover:border-cane-500/50 transition-all" data-service="Estrutura/Frame" onclick="toggleService(this)">Estrutura/Frame</button>
+                                <button type="button" class="service-chip bg-white dark:bg-transparent border border-slate-300 dark:border-neutral-700 text-slate-600 dark:text-neutral-300 font-medium text-sm px-5 py-2.5 rounded-full hover:border-cane-400 dark:hover:border-cane-500/50 transition-all" data-service="Firmware/Desbloqueio" onclick="toggleService(this)">Firmware/Desbloqueio</button>
+                                <button type="button" class="service-chip bg-white dark:bg-transparent border border-slate-300 dark:border-neutral-700 text-slate-600 dark:text-neutral-300 font-medium text-sm px-5 py-2.5 rounded-full hover:border-cane-400 dark:hover:border-cane-500/50 transition-all" data-service="Outro" onclick="toggleService(this)">Outro</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-bold text-slate-700 dark:text-neutral-300 mb-2 block transition-colors">Fotos do drone (opcional)</label>
+                            <div id="upload-area" class="border-2 border-dashed border-slate-300 dark:border-neutral-700/50 bg-slate-50 dark:bg-transparent rounded-2xl p-8 text-center hover:border-cane-400 dark:hover:border-cane-500/30 hover:bg-cane-50/50 dark:hover:bg-transparent transition-colors cursor-pointer" onclick="document.getElementById('file-input').click()">
+                                <i data-lucide="upload-cloud" class="w-10 h-10 text-slate-400 dark:text-neutral-600 mx-auto mb-3 transition-colors"></i>
+                                <p class="text-sm font-medium text-slate-600 dark:text-neutral-500 transition-colors">Clique ou arraste fotos aqui</p>
+                                <p class="text-xs text-slate-500 dark:text-neutral-600 mt-1 transition-colors">Lembrete: Envie as fotos via chat após redirecionar</p>
+                                <input type="file" id="file-input" class="hidden" multiple accept="image/*" onchange="handleFiles(this)">
+                            </div>
+                            <div id="file-list" class="mt-3 space-y-2"></div>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-bold text-slate-700 dark:text-neutral-300 mb-2 block transition-colors">Observações adicionais</label>
+                            <textarea id="notes" rows="3" placeholder="Alguma informação extra que possa nos ajudar..."
+                                      class="w-full bg-slate-50 dark:bg-neutral-800/50 border border-slate-200 dark:border-neutral-700/50 rounded-xl p-4 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-600 transition-all resize-none focus:bg-white dark:focus:bg-neutral-800"></textarea>
+                        </div>
+
+                        <div class="flex justify-between pt-4">
+                            <button type="button" onclick="nextStep(2)" class="bg-slate-100 dark:bg-transparent dark:border dark:border-neutral-700 hover:bg-slate-200 dark:hover:border-neutral-500 text-slate-700 dark:text-white font-semibold h-12 px-6 rounded-full flex items-center gap-2 transition-all">
+                                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                                Voltar
+                            </button>
+                            <!-- Alterado para type="button" para evitar o bloqueio invisível do navegador -->
+                            <button type="button" onclick="handleSubmit(event)" class="btn-shine bg-cane-500 hover:bg-cane-600 text-white dark:text-dark-500 font-semibold h-12 px-10 rounded-full flex items-center gap-2 transition-all hover:scale-105 shadow-lg shadow-cane-500/30 dark:shadow-none">
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                                Enviar Orçamento
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Success State -->
+                <div id="form-success" class="hidden text-center py-12">
+                    <div class="w-20 h-20 bg-cane-50 dark:bg-cane-500/20 rounded-full flex items-center justify-center mx-auto mb-6 transition-colors">
+                        <i data-lucide="check-circle" class="w-10 h-10 text-cane-600 dark:text-cane-400 transition-colors"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-slate-900 dark:text-white transition-colors">Redirecionando...</h3>
+                    <p class="text-slate-500 dark:text-neutral-400 mb-8 max-w-md mx-auto transition-colors">Você está sendo redirecionado para o WhatsApp com os dados do seu orçamento pré-preenchidos. Basta enviar a mensagem lá!</p>
+                    <button type="button" onclick="resetForm()" class="bg-slate-100 dark:bg-transparent dark:border dark:border-neutral-700 hover:bg-slate-200 dark:hover:border-cane-500/50 text-slate-700 dark:text-white font-semibold h-12 px-8 rounded-full flex items-center gap-2 transition-all mx-auto">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        Novo orçamento
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ <!-- Footer Sempre Escuro -->
+    <footer class="border-t border-neutral-900/50 pt-20 pb-8 bg-[#050505] transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <!-- Brand -->
+                <div class="md:col-span-1">
+                    <a href="#hero" class="block mb-6">
+                        <img src="logofp.png" alt="Dr.Drone Logo" class="h-16 w-auto object-contain rounded-lg shadow-none">
+                    </a>
+                    <p class="text-sm text-neutral-500 leading-relaxed mb-6 transition-colors">Manutenção especializada de drones com garantia e qualidade que você pode confiar.</p>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-10 h-10 bg-neutral-900 hover:bg-cane-500/20 border border-neutral-800 rounded-xl flex items-center justify-center transition-all group">
+                            <svg class="w-4 h-4 text-neutral-400 group-hover:text-cane-500 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-neutral-900 hover:bg-cane-500/20 border border-neutral-800 rounded-xl flex items-center justify-center transition-all group">
+                            <svg class="w-4 h-4 text-neutral-400 group-hover:text-cane-500 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-neutral-900 hover:bg-cane-500/20 border border-neutral-800 rounded-xl flex items-center justify-center transition-all group">
+                            <svg class="w-4 h-4 text-neutral-400 group-hover:text-cane-500 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h4 class="font-bold text-sm uppercase tracking-wider text-neutral-300 mb-6 transition-colors">Serviços</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#servicos" class="text-sm text-neutral-500 hover:text-cane-400 transition-colors">Diagnóstico Técnico</a></li>
+                        <li><a href="#servicos" class="text-sm text-neutral-500 hover:text-cane-400 transition-colors">Reparo de Motores</a></li>
+                        <li><a href="#servicos" class="text-sm text-neutral-500 hover:text-cane-400 transition-colors">Câmera & Gimbal</a></li>
+                        <li><a href="#servicos" class="text-sm text-neutral-500 hover:text-cane-400 transition-colors">Desoxidação</a></li>
+                        <li><a href="#servicos" class="text-sm text-neutral-500 hover:text-cane-400 transition-colors">Manutenção Preventiva</a></li>
+                    </ul>
+                </div>
+
+                <!-- Links -->
+                <div>
+                    <h4 class="font-bold text-sm uppercase tracking-wider text-neutral-300 mb-6 transition-colors">Empresa</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#sobre" class="text-sm text-neutral-500 hover:text-cane-400 transition-colors">Sobre Nós</a></li>
+                        <li><a href="#depoimentos" class="text-sm text-neutral-500 hover:text-cane-400 transition-colors">Depoimentos</a></li>
+                        <li><a href="#faq" class="text-sm text-neutral-500 hover:text-cane-400 transition-colors">FAQ</a></li>
+                        <li><a href="#orcamento" class="text-sm text-neutral-500 hover:text-cane-400 transition-colors">Orçamento</a></li>
+                        <li><a href="#" class="text-sm text-neutral-500 hover:text-cane-400 transition-colors">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-bold text-sm uppercase tracking-wider text-neutral-300 mb-6 transition-colors">Contato</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-cane-400 mt-0.5 flex-shrink-0 transition-colors"></i>
+                            <span class="text-sm text-neutral-500 transition-colors">Petrolina, Pernambuco<br>Brasil</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="phone" class="w-4 h-4 text-cane-400 flex-shrink-0 transition-colors"></i>
+                            <a href="tel:+5511999999999" class="text-sm text-neutral-500 hover:text-cane-400 transition-colors">(87) 98825-6172</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="mail" class="w-4 h-4 text-cane-400 flex-shrink-0 transition-colors"></i>
+                            <a href="mailto:contato@drdrone.com.br" class="text-sm text-neutral-500 hover:text-cane-400 transition-colors">contato@drdrone.com.br</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="clock" class="w-4 h-4 text-cane-400 flex-shrink-0 transition-colors"></i>
+                            <span class="text-sm text-neutral-500 transition-colors">Seg-Sex: 9h às 18h<br>Sáb: 9h às 13h</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="border-t border-neutral-900/50 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 transition-colors">
+                <p class="text-xs text-neutral-500 transition-colors">© 2025 Dr.Drone — Assistência Técnica e Serviços. Todos os direitos reservados.</p>
+                <p class="text-xs text-neutral-500 font-medium transition-colors">Feito com <span class="text-cane-500">♥</span> para quem voa alto</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/5587988256172" target="_blank"
+       class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all animate-pulse-glow group"
+       style="--tw-shadow-color: rgba(34,197,94,0.3)">
+        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span class="absolute -top-10 right-0 bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-md">Fale com a Dr.Drone!</span>
+    </a>
+
+    <script>
+        // ========== THEME TOGGLE (DARK/LIGHT) ==========
+        const themeToggleBtns = document.querySelectorAll('.theme-toggle');
+        
+        // Verifica a preferência salva no localStorage ou preferência do sistema
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        themeToggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                if (document.documentElement.classList.contains('dark')) {
+                    localStorage.theme = 'dark';
+                } else {
+                    localStorage.theme = 'light';
+                }
+                updateNavbarBackground(); // Atualiza a cor da navbar imediatamente
+            });
+        });
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // ========== MOBILE MENU ==========
+        let menuOpen = false;
+        function toggleMenu() {
+            menuOpen = !menuOpen;
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            if (menuOpen) {
+                menu.classList.add('open');
+                icon.setAttribute('data-lucide', 'x');
+                document.body.style.overflow = 'hidden';
+            } else {
+                menu.classList.remove('open');
+                icon.setAttribute('data-lucide', 'menu');
+                document.body.style.overflow = '';
+            }
+            lucide.createIcons();
+        }
+
+       // ========== NAVBAR SCROLL ==========
+        function updateNavbarBackground() {
+            const navbar = document.getElementById('navbar');
+            
+            if (window.scrollY > 50) {
+                // Fundo sempre escuro (preto com 90% de opacidade e blur)
+                navbar.style.background = 'rgba(5,5,5,0.90)';
+                navbar.style.backdropFilter = 'blur(10px)';
+                navbar.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                navbar.classList.add('shadow-sm');
+            } else {
+                // Topo da página (fica transparente para mostrar o vídeo)
+                navbar.style.background = 'transparent';
+                navbar.style.backdropFilter = 'none';
+                navbar.style.borderBottom = 'none';
+                navbar.classList.remove('shadow-sm');
+            }
+        }
+        window.addEventListener('scroll', updateNavbarBackground);
+        // Chama a função uma vez no carregamento para caso a página já inicie rolada
+        updateNavbarBackground();
+
+        // ========== SCROLL REVEAL ==========
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ========== STAT COUNTER ==========
+        const statElements = document.querySelectorAll('.stat-number');
+        let statAnimated = false;
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !statAnimated) {
+                    statAnimated = true;
+                    animateStats();
+                }
+            });
+        }, { threshold: 0.3 });
+        statElements.forEach(el => statObserver.observe(el));
+
+        function animateStats() {
+            statElements.forEach(el => {
+                const target = parseInt(el.getAttribute('data-target'));
+                if (!target) return;
+                const duration = 2000;
+                const start = performance.now();
+                function update(now) {
+                    const elapsed = now - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.round(eased * target);
+                    if (target === 98) el.textContent = current + '%';
+                    else if (target === 72) el.textContent = current + 'h';
+                    else if (target === 90) el.textContent = current + ' dias';
+                    else el.textContent = current + '+';
+                    if (progress < 1) requestAnimationFrame(update);
+                }
+                requestAnimationFrame(update);
+            });
+        }
+
+        // ========== FAQ ==========
+        function toggleFaq(button) {
+            const item = button.closest('.faq-item');
+            const answer = item.querySelector('.faq-answer');
+            const icon = item.querySelector('.faq-icon');
+            const isOpen = answer.classList.contains('open');
+            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+            document.querySelectorAll('.faq-icon').forEach(i => {
+                i.setAttribute('data-lucide', 'plus');
+                i.style.transform = 'rotate(0deg)';
+            });
+            if (!isOpen) {
+                answer.classList.add('open');
+                icon.setAttribute('data-lucide', 'minus');
+                icon.style.transform = 'rotate(180deg)';
+            }
+            lucide.createIcons();
+        }
+
+        // ========== FORM STEPS ==========
+        let currentStep = 1;
+        let selectedServices = [];
+
+        function nextStep(step) {
+            if (step > currentStep) {
+                if (currentStep === 1) {
+                    const name = document.getElementById('name').value;
+                    const phone = document.getElementById('phone').value;
+                    const city = document.getElementById('city').value;
+                    if (!name || !phone || !city) { showToast('Preencha todos os campos obrigatórios.', 'error'); return; }
+                }
+                if (currentStep === 2) {
+                    const model = document.getElementById('model').value;
+                    const problem = document.getElementById('problem').value;
+                    if (!model || !problem) { showToast('Preencha todos os campos obrigatórios.', 'error'); return; }
+                }
+            }
+            document.getElementById(`form-step-${currentStep}`).classList.add('hidden');
+            document.getElementById(`form-step-${step}`).classList.remove('hidden');
+            currentStep = step;
+            updateStepIndicators();
+        }
+
+        function updateStepIndicators() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const inactiveBgColor = isDark ? '#262626' : '#f1f5f9';
+
+            for (let i = 1; i <= 3; i++) {
+                const dot = document.getElementById(`step${i}-dot`);
+                const label = document.getElementById(`step${i}-label`);
+                if (i <= currentStep) {
+                    dot.className = 'w-8 h-8 rounded-full bg-cane-500 flex items-center justify-center text-white dark:text-dark-500 text-xs font-bold transition-all shadow-md shadow-cane-500/30 dark:shadow-none';
+                    if (label) label.className = 'text-sm font-bold text-cane-600 dark:text-cane-400 hidden sm:inline transition-colors';
+                } else {
+                    dot.className = 'w-8 h-8 rounded-full bg-slate-100 dark:bg-neutral-800 border border-slate-200 dark:border-transparent flex items-center justify-center text-slate-400 dark:text-neutral-500 text-xs font-bold transition-all';
+                    if (label) label.className = 'text-sm font-medium text-slate-400 dark:text-neutral-500 hidden sm:inline transition-colors';
+                }
+            }
+            document.getElementById('step1-line').style.background = currentStep > 1 ? '#17ad63' : inactiveBgColor;
+            document.getElementById('step2-line').style.background = currentStep > 2 ? '#17ad63' : inactiveBgColor;
+        }
+
+        // ========== SERVICE CHIPS ==========
+        function toggleService(chip) {
+            const service = chip.getAttribute('data-service');
+            chip.classList.toggle('selected');
+            if (chip.classList.contains('selected')) {
+                if (!selectedServices.includes(service)) selectedServices.push(service);
+            } else {
+                selectedServices = selectedServices.filter(s => s !== service);
+            }
+        }
+
+        // ========== FILE UPLOAD ==========
+        function handleFiles(input) {
+            const fileList = document.getElementById('file-list');
+            fileList.innerHTML = '';
+            Array.from(input.files).forEach(file => {
+                if (file.size > 10 * 1024 * 1024) { showToast(`${file.name} excede 10MB.`, 'error'); return; }
+                const div = document.createElement('div');
+                div.className = 'flex items-center gap-3 bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 rounded-xl px-4 py-3 shadow-sm dark:shadow-none transition-colors';
+                div.innerHTML = `
+                    <i data-lucide="image" class="w-4 h-4 text-cane-500 dark:text-cane-400 flex-shrink-0"></i>
+                    <span class="text-sm font-medium text-slate-700 dark:text-neutral-300 truncate flex-1 transition-colors">${file.name}</span>
+                    <span class="text-xs text-slate-500 dark:text-neutral-500 transition-colors">${(file.size / 1024 / 1024).toFixed(1)}MB</span>
+                    <button type="button" onclick="this.parentElement.remove()" class="text-slate-400 dark:text-neutral-600 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>`;
+                fileList.appendChild(div);
+            });
+            lucide.createIcons();
+        }
+
+        // ========== FORM SUBMIT (COM WHATSAPP) ==========
+        function handleSubmit(e) {
+            if (e) e.preventDefault();
+            
+            if (selectedServices.length === 0) { 
+                showToast('Selecione pelo menos um serviço.', 'error'); 
+                return; 
+            }
+
+            // Puxando os dados
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const city = document.getElementById('city').value;
+            
+            const model = document.getElementById('model').value;
+            const problem = document.getElementById('problem').value;
+            
+            const notes = document.getElementById('notes').value || '';
+            const servicesText = selectedServices.join(', ');
+
+            // Verificando fotos
+            const fileInput = document.getElementById('file-input');
+            const filesCount = fileInput && fileInput.files ? fileInput.files.length : 0;
+            const photosInfo = filesCount > 0 
+                ? `\n\n*Atenção:* Tenho ${filesCount} foto(s) do drone para enviar.` 
+                : '';
+                
+            const notesText = notes ? `\n\n*Observações:*\n ${notes}` : '';
+
+            // Construindo a mensagem EXATAMENTE no formato solicitado
+            const message = 
+`*Novo Pedido de Orçamento - Dr.Drone*
+
+*Dados do Cliente:*
+ Nome: ${name}
+ Cidade: ${city}
+ Telefone: ${phone}
+
+*Detalhes do Drone:*
+ Modelo: ${model}
+ Problema: ${problem}
+
+*Serviços:*
+ ${servicesText}${notesText}${photosInfo}`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappNumber = '5587988256172'; 
+            
+            // Usando API oficial para maior compatibilidade com navegadores e mobile
+            const whatsappURL = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+            
+            // Tenta abrir em nova aba. Se o navegador bloquear, força o redirecionamento na mesma aba.
+            let win = window.open(whatsappURL, '_blank');
+            if (!win || win.closed || typeof win.closed === 'undefined') {
+                window.location.href = whatsappURL;
+            }
+
+            // Interface de sucesso
+            document.getElementById('budget-form').classList.add('hidden');
+            document.getElementById('form-success').classList.remove('hidden');
+            showToast('Abrindo o WhatsApp... 🎉', 'success');
+        }
+
+        function resetForm() {
+            document.getElementById('budget-form').reset();
+            document.getElementById('budget-form').classList.remove('hidden');
+            document.getElementById('form-success').classList.add('hidden');
+            document.getElementById('file-list').innerHTML = '';
+            selectedServices = [];
+            document.querySelectorAll('.service-chip').forEach(c => c.classList.remove('selected'));
+            currentStep = 1;
+            document.getElementById('form-step-1').classList.remove('hidden');
+            document.getElementById('form-step-2').classList.add('hidden');
+            document.getElementById('form-step-3').classList.add('hidden');
+            updateStepIndicators();
+        }
+
+        // ========== TOAST ==========
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-message');
+            msgEl.textContent = message;
+            toast.style.background = type === 'error' ? '#ef4444' : '#17ad63';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        // ========== PHONE MASK ==========
+        document.getElementById('phone').addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 11) v = v.slice(0, 11);
+            if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+            else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+            else if (v.length > 0) v = `(${v}`;
+            e.target.value = v;
+        });
+
+        // ========== DRAG & DROP ==========
+        const uploadArea = document.getElementById('upload-area');
+        ['dragenter', 'dragover'].forEach(event => {
+            uploadArea.addEventListener(event, (e) => {
+                e.preventDefault();
+                const isDark = document.documentElement.classList.contains('dark');
+                if (isDark) {
+                    uploadArea.classList.add('border-cane-500', 'bg-cane-500/10');
+                } else {
+                    uploadArea.classList.add('border-cane-400', 'bg-cane-50/50');
+                }
+            });
+        });
+        ['dragleave', 'drop'].forEach(event => {
+            uploadArea.addEventListener(event, (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('border-cane-400', 'bg-cane-50/50', 'border-cane-500', 'bg-cane-500/10');
+            });
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            const fileInput = document.getElementById('file-input');
+            fileInput.files = e.dataTransfer.files;
+            handleFiles(fileInput);
+        });
+    </script>
+</body>
+</html>
